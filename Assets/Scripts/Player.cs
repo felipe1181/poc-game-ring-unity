@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
+    [Header("Stats")]
+    public float totalHealth;
+    public float currentHealth;
+    public Image healthBar;
+    public bool isDead;
+
     public float speed;
     private Vector2 _direction;
+
+
+    public GameOverScreen gameOverScreen;
 
     public Vector2 direction
     {
@@ -23,16 +32,27 @@ public class Player : MonoBehaviour
     private new Rigidbody2D rigidbody2D;
     void Start()
     {
+        currentHealth = totalHealth;
         rigidbody2D = GetComponent<Rigidbody2D>();
+
     }
 
     void Update()
     {
-        _direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (isDead == false)
+        {
+            _direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
     }
 
     private void FixedUpdate()
     {
-        rigidbody2D.MovePosition(rigidbody2D.position + _direction * speed * Time.fixedDeltaTime);
+        if (isDead == false)
+        {
+            rigidbody2D.MovePosition(rigidbody2D.position + _direction * speed * Time.fixedDeltaTime);
+        }
     }
+
+
 }

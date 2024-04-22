@@ -19,16 +19,12 @@ public class Skeleton : MonoBehaviour
     public int attackCooldown = 2; // Seconds between attacks
     private float attackCooldownLeft; // Seconds left until this object can attack again
 
-    private Vector2 tempRotation;
-
-
     void Start()
     {
         currentHealth = totalHealth;
         player = FindObjectOfType<Player>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        tempRotation = transform.eulerAngles;
     }
 
     void Update()

@@ -21,30 +21,34 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //is moving
-        if (player.direction.sqrMagnitude > 0)
+        if (player.isDead == false)
         {
-            animator.SetInteger("transition", 1);
-        }
-        else
-        {
-            animator.SetInteger("transition", 0);
+            //is moving
+            if (player.direction.sqrMagnitude > 0)
+            {
+                animator.SetInteger("transition", 1);
+            }
+            else
+            {
+                animator.SetInteger("transition", 0);
+            }
+
+            if (player.direction.x > 0)
+            {
+                transform.eulerAngles = new Vector2(0, 0);
+            }
+            else if (player.direction.x < 0)
+            {
+                transform.eulerAngles = new Vector2(0, 180);
+            }
+
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartCoroutine(this.AttackSword());
+            }
         }
 
-        if (player.direction.x > 0)
-        {
-            transform.eulerAngles = new Vector2(0, 0);
-        }
-        else if (player.direction.x < 0)
-        {
-            transform.eulerAngles = new Vector2(0, 180);
-        }
-
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(this.AttackSword());
-        }
     }
 
     public IEnumerator AttackSword()
@@ -74,5 +78,20 @@ public class PlayerAnimation : MonoBehaviour
     public void OnHit()
     {
         animator.SetTrigger("hit");
+    }
+
+
+    public void receivedDamage(int damage)
+    {
+        player.currentHealth = player.currentHealth - damage;
+        player.healthBar.fillAmount = player.currentHealth / player.totalHealth;
+        player.isDead = player.healthBar.fillAmount <= 0;
+
+        if (player.isDead)
+        {
+
+            animator.SetTrigger("death");
+            player.gameOverScreen.setup();
+        }
     }
 }

@@ -11,6 +11,7 @@ public class AnimationControl : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private Skeleton skeleton;
     private PlayerAnimation player;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,7 +26,9 @@ public class AnimationControl : MonoBehaviour
     }
     public void PlayAnimationAttack()
     {
+
         animator.SetTrigger("attack");
+
     }
 
     public void PlayOnHit()
@@ -52,6 +55,7 @@ public class AnimationControl : MonoBehaviour
             if (hit != null)
             {
                 player.OnHit();
+                player.receivedDamage(50);
             }
         }
     }
